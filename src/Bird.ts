@@ -1,19 +1,20 @@
 import App from "./App";
 import { AnimatedSprite, Container } from "pixi.js";
 import { TweenLite, gsap, TimelineMax } from "gsap";
+import Background from "./Background";
 
 export default class Bird extends Container {
 	private readonly _bird: AnimatedSprite;
-	private _downTween: TweenLite;
+	private readonly _multiplier: number;
+	private readonly _bgContainer: Background;
 
-	constructor() {
+	constructor(bgContainer: Background) {
 		super();
 
-		const skins = [
-			App.assets['bird-0.png'],
-			App.assets['bird-1.png'],
-			App.assets['bird-2.png']
-		];
+		const skins = Array.from({length: 3}, (_, index) => App.assets[`bird-${index}.png`])
+
+		this._bgContainer = bgContainer;
+		this._multiplier = 11;
 
 		this._bird = new AnimatedSprite(skins);
 		this._bird.anchor.set(0.5);
@@ -33,7 +34,6 @@ export default class Bird extends Container {
 			rotation: -0.5,
 			onComplete: () => {
 				this.down();
-				console.log(1)
 			}
 		});
 	}
@@ -42,14 +42,16 @@ export default class Bird extends Container {
 		gsap.killTweensOf(this._bird);
 
 		const timeline = new TimelineMax();
+		const speed = ((App.view.height - this._bird.y) / this._bird.height) / this._multiplier;
 
 		timeline
-			.to(this._bird, 1, {
-				y: App.view.height,
+			.delay(0.07)
+			.to(this._bird, speed, {
+				y: this._bgContainer.y + this._bgContainer.height - this._bird.height / 2,
 			})
 			.to(this._bird, 0.2, {
 				rotation: 1.57,
-				onComplete: () => console.log(2)
-			}, 0.2)
+				// onComplete: () => console.log(2)
+			}, 0.3)
 	}
 }

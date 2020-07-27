@@ -2,9 +2,13 @@ import { Container } from "pixi.js";
 import App from "./App";
 import Bird from "./Bird";
 import Background from "./Background";
+import Ground from "./Ground";
 
 class Scene extends Container {
-	private _app: App;
+	private readonly _app: App;
+	private _bg: Background;
+	private _bird: Bird;
+	private _ground: Ground;
 
 	constructor() {
 		super();
@@ -20,7 +24,11 @@ class Scene extends Container {
 		(async () => {
 			await this._app.uploadPictures();
 
-			this.addChild(new Background(), new Bird());
+			this._bg = new Background();
+			this._bird = new Bird(this._bg);
+			this._ground = new Ground(this._bg);
+
+			this.addChild(this._bg, this._bird, this._ground);
 			this.refreshSize();
 		})();
 
