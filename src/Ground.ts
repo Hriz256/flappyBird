@@ -1,6 +1,7 @@
 import { BaseRenderTexture, Container, RenderTexture, Sprite, TilingSprite } from "pixi.js";
 import App from "./App";
 import Background from "./Background";
+import { Linear, TweenLite } from "gsap/gsap-core";
 
 export default class Ground extends Container {
 	private readonly _ground: PIXI.TilingSprite;
@@ -9,9 +10,9 @@ export default class Ground extends Container {
 		super();
 
 		const container = new Container();
-		const length = Math.ceil(App.assets['background.png'].width/ App.assets['ground.png'].width);
+		const length = Math.ceil(App.assets['background.png'].width / App.assets['ground.png'].width);
 
-		Array.from({ length}, (_, index) => {
+		Array.from({ length }, (_, index) => {
 			const img = new Sprite(App.assets['ground.png']);
 			img.x = index * App.assets['ground.png'].width;
 			container.addChild(img);
@@ -31,8 +32,10 @@ export default class Ground extends Container {
 		this._ground.y = bgContainer.y + App.assets['background.png'].height;
 		this.addChild(this._ground);
 
-		App.ticker.add(() => {
-			this._ground.tilePosition.x -= 3;
+		TweenLite.to(this._ground, 3, {
+			pixi: { tilePositionX: -App.assets['background.png'].width - App.assets['pipe.png'].width },
+			ease: Linear.easeNone,
+			repeat: -1
 		})
 	}
 }

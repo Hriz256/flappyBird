@@ -1,10 +1,9 @@
-import { Application, LoaderResource, Renderer, Ticker } from "pixi.js";
+import { Application, LoaderResource, Renderer } from "pixi.js";
 
 export default class App extends Application {
 	private static _assets: Partial<Record<string, LoaderResource>>;
 	private static _renderer: Renderer;
 	private static _view: HTMLCanvasElement;
-	private static _ticker: Ticker;
 
 	constructor(options: any) {
 		super(options);
@@ -15,7 +14,6 @@ export default class App extends Application {
 		this.stage.interactive = true;
 		App._renderer = this.renderer;
 		App._view = this.view;
-		App._ticker = this.ticker;
 		this.start();
 	}
 
@@ -40,10 +38,6 @@ export default class App extends Application {
 
 	public static get view() {
 		return this._view;
-	}
-
-	public static get ticker() {
-		return this._ticker;
 	}
 }
 

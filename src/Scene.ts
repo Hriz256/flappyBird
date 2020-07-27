@@ -3,6 +3,9 @@ import App from "./App";
 import Bird from "./Bird";
 import Background from "./Background";
 import Ground from "./Ground";
+import * as PIXI from "pixi.js";
+import { gsap } from "gsap";
+import {PixiPlugin} from "gsap/PixiPlugin";
 
 class Scene extends Container {
 	private readonly _app: App;
@@ -21,14 +24,17 @@ class Scene extends Container {
 			resizeTo: window
 		});
 
+		PixiPlugin.registerPIXI(PIXI);
+		gsap.registerPlugin(PixiPlugin);
+
 		(async () => {
 			await this._app.uploadPictures();
 
 			this._bg = new Background();
-			this._bird = new Bird(this._bg);
+			Bird.createBird(this._bg);
 			this._ground = new Ground(this._bg);
 
-			this.addChild(this._bg, this._bird, this._ground);
+			this.addChild(this._bg, Bird.bird, this._ground);
 			this.refreshSize();
 		})();
 
@@ -38,21 +44,12 @@ class Scene extends Container {
 	}
 
 	private refreshSize(): void {
-		let nvw;
-		let nvh;
+		const ratio = this.height / window.innerHeight;
 
-		if (window.innerHeight / window.innerWidth < window.screen.height / window.screen.width) {
-			nvh = window.innerHeight;
-			nvw = (nvh * window.screen.width) / window.screen.height;
-		} else {
-			nvw = window.innerWidth;
-			nvh = (nvw * window.screen.height) / window.screen.width;
-		}
-
-		this.scale.set(nvw / window.screen.width, nvh / window.screen.height);
+		this.height = window.innerHeight;
+		this.width /= ratio;
 
 		this.position.x = this._app.view.width / 2;
-		this.position.y = this._app.view.height / 2 - this.height / 2;
 	}
 }
 
