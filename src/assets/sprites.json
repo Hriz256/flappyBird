@@ -1,0 +1,84 @@
+{"frames": {
+
+"background.png":
+{
+	"frame": {"x":1,"y":1,"w":768,"h":896},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":768,"h":896},
+	"sourceSize": {"w":768,"h":896}
+},
+"bird-0.png":
+{
+	"frame": {"x":433,"y":899,"w":92,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":92,"h":64},
+	"sourceSize": {"w":92,"h":64}
+},
+"bird-1.png":
+{
+	"frame": {"x":527,"y":899,"w":92,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":92,"h":64},
+	"sourceSize": {"w":92,"h":64}
+},
+"bird-2.png":
+{
+	"frame": {"x":621,"y":899,"w":92,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":92,"h":64},
+	"sourceSize": {"w":92,"h":64}
+},
+"ground.png":
+{
+	"frame": {"x":911,"y":231,"w":37,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":37,"h":128},
+	"sourceSize": {"w":37,"h":128}
+},
+"pipe.png":
+{
+	"frame": {"x":771,"y":231,"w":138,"h":793},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":138,"h":793},
+	"sourceSize": {"w":138,"h":793}
+},
+"restart.png":
+{
+	"frame": {"x":1,"y":899,"w":214,"h":75},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":214,"h":75},
+	"sourceSize": {"w":214,"h":75}
+},
+"score.png":
+{
+	"frame": {"x":771,"y":1,"w":172,"h":228},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":172,"h":228},
+	"sourceSize": {"w":172,"h":228}
+},
+"share.png":
+{
+	"frame": {"x":217,"y":899,"w":214,"h":75},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":214,"h":75},
+	"sourceSize": {"w":214,"h":75}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "sprites.png",
+	"format": "RGBA8888",
+	"size": {"w":949,"h":1025},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:2dfdb975b2eadca0ccca9b658c43edc8:7d0898f2d8b2e66e265267ec37ff9a12:1eabdf11f75e3a4fe3147baf7b5be24b$"
+}
+}
