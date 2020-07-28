@@ -61,20 +61,17 @@ export default class Bird {
 	}
 
 	public static checkCollision(sprites: PIXI.Sprite[]): boolean {
-		const birdBounds = Bird.bird.getBounds();
-
 		return sprites.some(sprite => {
-			const spriteBound = sprite.getBounds();
-			// console.log(sprite.y, sprite.t.y)
+			const { x: globalBirdX } = Bird.bird.toGlobal(new PIXI.Point(Bird.bird.x, Bird.bird.y));
+			const { x: spriteX } = sprite.toGlobal(new PIXI.Point(sprite.x, sprite.y));
 
-			const { y } = sprite.toGlobal(new PIXI.Point(spriteBound.x, spriteBound.y));
-			console.log(y)
+			console.log(globalBirdX + Bird.bird.width / 2 < spriteX + sprite.width / 2
+				&& globalBirdX - Bird.bird.width / 2 > spriteX - sprite.width / 2)
 
-			// this._localTarget.y = y;
-			return Bird.bird.x < sprite.x + sprite.width
-				&& Bird.bird.x > sprite.x - sprite.width
-				&& Bird.bird.y < sprite.y + sprite.height * (sprite.anchor.y - 1)
-				&& Bird.bird.y > sprite.y - sprite.height * sprite.anchor.y;
+			return globalBirdX + Bird.bird.width / 2 < spriteX + sprite.width / 2
+				&& globalBirdX - Bird.bird.width / 2 > spriteX - sprite.width / 2
+				&& Bird.bird.y - Bird.bird.height / 2 < sprite.y + sprite.height
+				&& Bird.bird.y + Bird.bird.height / 2 > sprite.y;
 		});
 	}
 }

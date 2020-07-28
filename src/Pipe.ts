@@ -1,8 +1,9 @@
 import { Container, Sprite, Graphics } from "pixi.js";
 import App from "./App";
 import Background from "./Background";
-import {TweenLite, Linear, gsap} from "gsap/gsap-core";
+import { TweenLite, Linear, gsap } from "gsap/gsap-core";
 import Bird from "./Bird";
+import * as PIXI from "pixi.js";
 
 export default class Pipe extends Container {
 	private readonly _bgContainer: Background;
@@ -30,33 +31,33 @@ export default class Pipe extends Container {
 		this.addChild(container);
 
 		const upPipe = new Sprite(App.assets['pipe.png']);
-		upPipe.anchor.set(0.5, 1);
+		upPipe.anchor.set(0.5, 0);
 		upPipe.angle = 180;
-		upPipe.y = this._bgContainer.y - this.random(this._gap * 2, upPipe.height - this._gap);
+		upPipe.y = this.random(this._gap, upPipe.height - this._gap * 2);
 		upPipe.mask = this._pipeMask;
 		container.addChild(upPipe);
 
 		const downPipe = new Sprite(App.assets['pipe.png']);
 		downPipe.anchor.set(0.5, 0);
-		downPipe.y = upPipe.y + downPipe.height + this._gap * 2;
+		downPipe.y = upPipe.y + this._gap * 2;
 		downPipe.mask = this._pipeMask;
 		container.addChild(downPipe);
 
 		let isHalfAnimation = false;
 
-		TweenLite.to(container, 3, {
-			pixi: {x: -this._bgContainer.width / 2 - App.assets['pipe.png'].width / 2},
+		TweenLite.to(container.children, 3, {
+			x: -this._bgContainer.width - App.assets['pipe.png'].width,
 			ease: Linear.easeNone,
 
 			onUpdate: () => {
-				if (!isHalfAnimation && +gsap.getTweensOf(container)[0].progress().toFixed(1) === 0.6) {
+				if (!isHalfAnimation && +gsap.getTweensOf(container.children)[0].progress().toFixed(1) === 0.6) {
 					isHalfAnimation = true;
 					this.createPipeContainer();
 				}
 
-				const isCollision = Bird.checkCollision([upPipe]);
+				const isCollision = Bird.checkCollision([downPipe]);
 
-				isCollision && alert(isCollision)
+				// isCollision && console.log(isCollision)
 			},
 
 			onComplete: () => {
