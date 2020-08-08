@@ -1,43 +1,63 @@
-import { Application, LoaderResource, Renderer } from "pixi.js";
+import { Application, LoaderResource, utils } from "pixi.js";
+import WebFont from "./webfont";
 
-export default class App extends Application {
+class App extends Application {
 	private static _assets: Partial<Record<string, LoaderResource>>;
-	private static _renderer: Renderer;
-	private static _view: HTMLCanvasElement;
+	private static _renderer: PIXI.Renderer;
+	private static _emitter: PIXI.utils.EventEmitter;
 
 	constructor(options: any) {
 		super(options);
 
-		document.addEventListener('contextmenu', e => e.preventDefault());
+		document.addEventListener("contextmenu", e => e.preventDefault());
 		document.body.append(this.view);
 
 		this.stage.interactive = true;
-		App._renderer = this.renderer;
-		App._view = this.view;
+		this.init();
 		this.start();
 	}
 
-	public async uploadPictures() {
-		await new Promise(resolve => {
-			this.loader
-				.add('sprites', 'assets/sprites.json')
-				.load(({ resources }) => {
-					App._assets = resources;
-					resolve();
-				});
-		})
+	private init() {
+		App._renderer = this.renderer;
+		App._emitter = new utils.EventEmitter();
 	}
 
-	public static get assets() {
+	public async uploadResources() {
+		await this.loadPictures();
+		await this.loadFonts();
+	}
+
+	private async loadPictures() {
+		App._assets = await new Promise<Partial<Record<string, LoaderResource>>>(resolve => {
+			this.loader
+				.add("sprites", "assets/sprites.json")
+				.load(({ resources }) => resolve(resources));
+		});
+	}
+
+	private loadFonts() {
+		return new Promise((resolve) => {
+			WebFont.load({
+				custom: {
+					families: ["FB"],
+				},
+				active: resolve,
+			});
+		});
+	}
+
+	public static get assets(): { [key: string]: PIXI.Texture } {
 		return this._assets.sprites.textures;
 	}
 
-	public static get renderer() {
-		return this._renderer
+	public static get renderer(): PIXI.Renderer {
+		return this._renderer;
 	}
 
-	public static get view() {
-		return this._view;
+	public static get emitter(): PIXI.utils.EventEmitter {
+		return this._emitter;
 	}
 }
+
+export { App };
 
